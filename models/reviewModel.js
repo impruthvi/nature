@@ -63,16 +63,33 @@ reviewSchema.statics.calcAverageRatings = async function(tourId) {
       }
     }
   ]);
-  console.log(stats);
-  await Tour.findByIdAndUpdate(tourId, {
-    reatingsQuantity: stats[0].nRating,
-    ratingsAverage: stats[0].avgRating
-  });
+  // console.log(stats);
+  if (stats.length > 0) {
+    await Tour.findByIdAndUpdate(tourId, {
+      reatingsQuantity: stats[0].nRating,
+      ratingsAverage: stats[0].avgRating
+    });
+  } else {
+    await Tour.findByIdAndUpdate(tourId, {
+      reatingsQuantity: 0,
+      ratingsAverage: 0
+    });
+  }
 };
 
 reviewSchema.post('save', function() {
   // this point to current review
   this.constructor.calcAverageRatings(this.tour);
+});
+
+reviewSchema.pre(/^findOneAnd/, async function(next) {
+  this.r = await this.findOne();
+  next();
+});
+
+reviewSchema.post(/^findOneAnd/, async function() {
+  // await this.findOne(); does not work here, query has already exceeded
+  await this.r.constructor.calcAverageRatings(this.r.tour);
 });
 
 const Review = mongoose.model('Review', reviewSchema);
