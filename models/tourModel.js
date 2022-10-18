@@ -32,7 +32,7 @@ const tourSchema = mongoose.Schema(
         message: 'Difficulty is either: easy, medium, or difficult'
       }
     },
-    reatingsAverage: {
+    ratingsAverage: {
       type: Number,
       default: 4.5,
       min: [1, 'Reating must be above 1.0'],
@@ -110,6 +110,9 @@ const tourSchema = mongoose.Schema(
     toObject: { virtuals: true }
   }
 );
+
+tourSchema.index({ price: 1, ratingsAverage: -1 });
+tourSchema.index({ slug: 1 });
 
 tourSchema.virtual('durationWeeks').get(function() {
   return this.duration / 7;
