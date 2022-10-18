@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const slugify = require('slugify');
 // const validator = require('validator');
 
+const User = require('./userModel');
+
 const tourSchema = mongoose.Schema(
   {
     name: {
@@ -10,7 +12,7 @@ const tourSchema = mongoose.Schema(
       unique: true,
       trim: true,
       maxlength: [40, 'A tour must have less than or equal then 40 characters'],
-      minlength: [10, 'A tour must have more than or equal then 10 characters'],
+      minlength: [10, 'A tour must have more than or equal then 10 characters']
       // validate: [validator.isAlpha, 'Tour name must only contain characters']
     },
     slug: String,
@@ -30,11 +32,12 @@ const tourSchema = mongoose.Schema(
         message: 'Difficulty is either: easy, medium, or difficult'
       }
     },
-    reatingsAverage: {
+    ratingsAverage: {
       type: Number,
       default: 4.5,
       min: [1, 'Reating must be above 1.0'],
-      max: [5, 'Reating must be above 5.0']
+      max: [5, 'Reating must be above 5.0'],
+      set: val => Math.round(val * 10) / 10
     },
     reatingsQuantity: {
       type: Number,
@@ -71,7 +74,37 @@ const tourSchema = mongoose.Schema(
       type: Date,
       default: Date.now()
     },
-    startDates: [Date]
+    startDates: [Date],
+    startLocation: {
+      // GeoJSON
+      type: {
+        type: String,
+        default: 'Point',
+        enum: ['Point']
+      },
+      coordinates: [Number],
+      address: String,
+      description: String
+    },
+    locations: [
+      {
+        type: {
+          type: String,
+          default: 'Point',
+          enum: ['Point']
+        },
+        coordinates: [Number],
+        address: String,
+        description: String,
+        day: Number
+      }
+    ],
+    guides: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: User
+      }
+    ]
   },
   {
     toJSON: { virtuals: true },
@@ -79,13 +112,30 @@ const tourSchema = mongoose.Schema(
   }
 );
 
+tourSchema.index({ price: 1, ratingsAverage: -1 });
+tourSchema.index({ slug: 1 });
+
 tourSchema.virtual('durationWeeks').get(function() {
   return this.duration / 7;
+});
+
+tourSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'tour',
+  localField: '_id'
 });
 
 // DOCUMENT MIDDLEWARE: runs before .save() and .create()
 tourSchema.pre('save', function(next) {
   this.slug = slugify(this.name, { lower: true });
+  next();
+});
+
+tourSchema.pre(/^find/, function(next) {
+  this.populate({
+    path: 'guides',
+    select: '-__v -passwordChangedAt'
+  });
   next();
 });
 
