@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon server.js",
-    "start:prod": "NODE_ENV=production nodemon server.js"
+    "start:prod": "NODE_ENV=production nodemon server.js",
+    "debug": "ndb server.js"
   },
   "author": "Pruthvisinh Rajput",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.15",
     "morgan": "^1.9.1",
+    "ndb": "^1.1.5",
     "nodemailer": "^6.8.0",
     "slugify": "^1.6.5",
     "validator": "^13.7.0",
