@@ -68,7 +68,9 @@ app.use((req, res, next) => {
 });
 
 app.get('/pug', (req, res) => {
-  res.status(200).render('base');
+  res.status(200).render('base', {
+    tour: 'Test'
+  });
 });
 
 // 3) ROUTES
