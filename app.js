@@ -39,7 +39,8 @@ const connectSrcUrls = [
   'https://api.mapbox.com/',
   'https://a.tiles.mapbox.com/',
   'https://b.tiles.mapbox.com/',
-  'https://events.mapbox.com/'
+  'https://events.mapbox.com/',
+  'ws://localhost:*/'
 ];
 const fontSrcUrls = ['fonts.googleapis.com', 'fonts.gstatic.com'];
 
