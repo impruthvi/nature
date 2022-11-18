@@ -2,10 +2,13 @@
 import '@babel/polyfill';
 import { displayMap } from './mapbox';
 import { login, logout } from './login';
+import { updateData } from './updateSettings';
+
 // DOM ELEMENTS
 const mapBox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
 const logOutButton = document.querySelector('.nav__el--logout');
+const userDataForm = document.querySelector('.form-user-data');
 
 // DELEGATION
 if (mapBox) {
@@ -14,7 +17,7 @@ if (mapBox) {
 }
 
 if (loginForm) {
-    document.querySelector('.form').addEventListener('submit', e => {
+  loginForm.addEventListener('submit', e => {
     e.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -22,4 +25,13 @@ if (loginForm) {
   });
 }
 
-if(logOutButton) logOutButton.addEventListener('click',logout)
+if (logOutButton) logOutButton.addEventListener('click', logout);
+
+if (userDataForm) {
+  userDataForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    updateData(name, email);
+  });
+}
