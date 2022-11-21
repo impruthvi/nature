@@ -29,7 +29,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 const scriptSrcUrls = [
   'https://api.tiles.mapbox.com/',
   'https://api.mapbox.com/',
-  'https://cdnjs.cloudflare.com/'
+  'https://cdnjs.cloudflare.com/',
+  'https://checkout.stripe.com/',
+  'https://js.stripe.com/v3/'
+  // 'https://js.stripe.com/'
 ];
 const styleSrcUrls = [
   'https://api.mapbox.com/',
@@ -41,24 +44,30 @@ const connectSrcUrls = [
   'https://a.tiles.mapbox.com/',
   'https://b.tiles.mapbox.com/',
   'https://events.mapbox.com/',
-  'ws://localhost:*/'
+  'ws://localhost:*/',
+  'https://js.stripe.com/v3/',
+  'https://js.stripe.com/'
 ];
-const fontSrcUrls = ['fonts.googleapis.com', 'fonts.gstatic.com'];
+const fontSrcUrls = [
+  'fonts.googleapis.com',
+  'fonts.gstatic.com',
+  'https://js.stripe.com/'
+];
 
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: [],
-      connectSrc: ["'self'", ...connectSrcUrls],
-      scriptSrc: ["'self'", ...scriptSrcUrls],
-      styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
-      workerSrc: ["'self'", 'blob:'],
-      objectSrc: [],
-      imgSrc: ["'self'", 'blob:', 'data:'],
-      fontSrc: ["'self'", ...fontSrcUrls]
-    }
-  })
-);
+// app.use(
+//   helmet.contentSecurityPolicy({
+//     directives: {
+//       defaultSrc: [],
+//       connectSrc: ["'self'", ...connectSrcUrls],
+//       scriptSrc: ["'self'", ...scriptSrcUrls],
+//       styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+//       workerSrc: ["'self'", 'blob:'],
+//       objectSrc: [],
+//       imgSrc: ["'self'", 'blob:', 'data:'],
+//       fontSrc: ["'self'", ...fontSrcUrls]
+//     }
+//   })
+// );
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
