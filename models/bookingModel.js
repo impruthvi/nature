@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require('./userModel');
 
 const bookingSchema = new mongoose.Schema({
   tour: {
@@ -9,7 +10,7 @@ const bookingSchema = new mongoose.Schema({
 
   user: {
     type: mongoose.Types.ObjectId,
-    ref: 'User',
+    ref: User,
     required: [true, 'Booking must belong to a User']
   },
 
