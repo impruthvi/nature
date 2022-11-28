@@ -10,18 +10,21 @@ process.on('uncaughtException', err => {
 
 dotenv.config({ path: './config.env' });
 
-const DB = process.env.DATABASE.replace(
-  '<PASSWORD>',
-  process.env.DATABASE_PASSWORD
-);
-console.log(DB);
+// const DB = process.env.DATABASE.replace(
+//   '<PASSWORD>',
+//   process.env.DATABASE_PASSWORD
+// );
+
 mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true
-  })
+  .connect(
+    'mongodb+srv://impruthvi:impruthvi@todolist.wd9gx.mongodb.net/natours?retryWrites=true&w=majority',
+    {
+      useNewUrlParser: true,
+      // useCreateIndex: true,
+      // useFindAndModify: false,
+      useUnifiedTopology: true
+    }
+  )
   .then(() => console.log('Database connection successfull'));
 
 const port = process.env.PORT || 3000;
