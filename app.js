@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -16,6 +17,7 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
 const bookingRoutes = require('./routes/bookingRoutes');
+const bookingController = require('./controllers/bookingController');
 const viewRoutes = require('./routes/viewRoutes');
 
 const app = express();
@@ -89,6 +91,12 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again in an hour!'
 });
 app.use('/api', limiter);
+
+app.post(
+  '/webhook-checkout',
+  bodyParser.raw({ type: 'application/json' }),
+  bookingController.webhookCheckout
+);
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
