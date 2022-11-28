@@ -2,6 +2,13 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const app = require('./app');
 
+mongoose.connect(
+  'mongodb+srv://impruthvi:impruthvi@todolist.wd9gx.mongodb.net/natours?retryWrites=true&w=majority/natours',
+  {
+    useNewUrlParser: true
+  }
+);
+
 process.on('uncaughtException', err => {
   console.error('UNCAUGHT EXCEPTION! Shutting down..');
   console.log(err.name, err.message);
@@ -16,12 +23,7 @@ const DB = process.env.DATABASE.replace(
 );
 // const DB =
 //   'mongodb://impruthvi:impruthvi@todolist-shard-00-00.wd9gx.mongodb.net:27017,todolist-shard-00-01.wd9gx.mongodb.net:27017,todolist-shard-00-02.wd9gx.mongodb.net:27017/natours?ssl=true&replicaSet=atlas-a3xgj5-shard-0&authSource=admin&retryWrites=true&w=majority';
-mongoose.connect(
-  'mongodb+srv://impruthvi:impruthvi@todolist.wd9gx.mongodb.net/natours?retryWrites=true&w=majority/natours',
-  {
-    useNewUrlParser: true
-  }
-);
+
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
