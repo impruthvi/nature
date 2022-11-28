@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const app = require('./app');
 
 mongoose.connect(
-  'mongodb+srv://impruthvi:impruthvi@todolist.wd9gx.mongodb.net/natours?retryWrites=true&w=majority/natours',
+  'mongodb+srv://test:test1234@todolist.wd9gx.mongodb.net/natours?retryWrites=true&w=majority/natours',
   {
     useNewUrlParser: true
   }
@@ -17,10 +17,10 @@ process.on('uncaughtException', err => {
 
 dotenv.config({ path: './config.env' });
 
-const DB = process.env.DATABASE.replace(
-  '<PASSWORD>',
-  process.env.DATABASE_PASSWORD
-);
+// const DB = process.env.DATABASE.replace(
+//   '<PASSWORD>',
+//   process.env.DATABASE_PASSWORD
+// );
 // const DB =
 //   'mongodb://impruthvi:impruthvi@todolist-shard-00-00.wd9gx.mongodb.net:27017,todolist-shard-00-01.wd9gx.mongodb.net:27017,todolist-shard-00-02.wd9gx.mongodb.net:27017/natours?ssl=true&replicaSet=atlas-a3xgj5-shard-0&authSource=admin&retryWrites=true&w=majority';
 
