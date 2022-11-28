@@ -63,6 +63,7 @@ const createBookinfCheckout = async session => {
   const tour = session.client_reference_id;
   const user = (await User.find({ email: session.customer_email })).id;
   const price = session.line_items[0].price_data.unit_amount / 100;
+  console.log(`Booking`, tour, user, price);
   await Booking.create({ tour, user, price });
 };
 
@@ -81,6 +82,7 @@ exports.webhookCheckout = catchAsync(async (req, res, next) => {
   }
 
   if (event.type === 'checkout.session.completed') {
+    conso;
     createBookinfCheckout(event.data.object);
   }
 
