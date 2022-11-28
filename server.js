@@ -17,17 +17,21 @@ const DB = process.env.DATABASE.replace(
 
 console.log(DB);
 // const DB = '';
-mongoose
-  .connect(
-    'mongodb+srv://impruthvi:impruthvi@todolist.wd9gx.mongodb.net/natours?retryWrites=true&w=majority',
-    {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-      useUnifiedTopology: true
-    }
-  )
-  .then(() => console.log('Database connection successfull'));
+// mongoose.connect(
+//   'mongodb+srv://impruthvi:impruthvi@todolist.wd9gx.mongodb.net/todoListDB?retryWrites=true&w=majority/todoListDB',
+//   {
+//     useNewUrlParser: true
+//   }
+// );
+mongoose.connect(
+  'mongodb+srv://impruthvi:impruthvi@todolist.wd9gx.mongodb.net/natours?retryWrites=true&w=majority',
+  {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true
+  }
+);
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
