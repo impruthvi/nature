@@ -16,17 +16,17 @@ dotenv.config({ path: './config.env' });
 // );
 
 // const DB = '';
-// mongoose
-//   .connect(
-//     'mongodb+srv://impruthvi:impruthvi@todolist.wd9gx.mongodb.net/natours?retryWrites=true&w=majority',
-//     {
-//       useNewUrlParser: true,
-//       useCreateIndex: true,
-//       useFindAndModify: false,
-//       useUnifiedTopology: true
-//     }
-//   )
-//   .then(() => console.log('Database connection successfull'));
+mongoose
+  .connect(
+    'mongodb+srv://impruthvi:impruthvi@todolist.wd9gx.mongodb.net/natours?retryWrites=true&w=majority',
+    {
+      // useNewUrlParser: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+      useUnifiedTopology: true
+    }
+  )
+  .then(() => console.log('Database connection successfull'));
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
