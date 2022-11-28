@@ -7,7 +7,7 @@ const bookingSchema = new mongoose.Schema({
     required: [true, 'Booking must belong to a Tour']
   },
 
-  tour: {
+  user: {
     type: mongoose.Types.ObjectId,
     ref: 'User',
     required: [true, 'Booking must belong to a User']
