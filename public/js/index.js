@@ -38,7 +38,7 @@ if (userDataForm) {
     form.append('name', document.getElementById('name').value);
     form.append('email', document.getElementById('email').value);
     form.append('photo', document.getElementById('photo').files[0]);
-    console.log(form);
+    // console.log(form);
 
     updateSettings(form, 'data');
   });
@@ -51,7 +51,7 @@ if (userPaswordForm) {
     const currentPassword = document.getElementById('password-current').value;
     const password = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('password-confirm').value;
-    console.log(currentPassword, password, passwordConfirm);
+    // console.log(currentPassword, password, passwordConfirm);
     await updateSettings(
       { currentPassword, password, passwordConfirm },
       'password'
