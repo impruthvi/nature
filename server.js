@@ -18,7 +18,7 @@ const DB = process.env.DATABASE.replace(
 // console.log(DB);
 // const DB = '';
 mongoose.connect(
-  'mongodb+srv://impruthvi:impruthvi@todolist.wd9gx.mongodb.net/natours?retryWrites=true&w=majority',
+  'mongodb+srv://impruthvi:impruthvi@todolist.wd9gx.mongodb.net/natours?retryWrites=true&w=majority/todoListDB',
   {
     useNewUrlParser: true
   }
