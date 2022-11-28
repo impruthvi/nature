@@ -10,15 +10,13 @@ process.on('uncaughtException', err => {
 
 dotenv.config({ path: './config.env' });
 
-const DB = process.env.DATABASE.replace(
-  '<PASSWORD>',
-  process.env.DATABASE_PASSWORD
-);
+// const DB = process.env.DATABASE.replace(
+//   '<PASSWORD>',
+//   process.env.DATABASE_PASSWORD
+// );
 
-// console.log(DB);
-// const DB = '';
 mongoose.connect(
-  'mongodb+srv://impruthvi:impruthvi@todolist.wd9gx.mongodb.net/natours?retryWrites=true&w=majority/todoListDB',
+  'mongodb+srv://impruthvi:impruthvi@todolist.wd9gx.mongodb.net/todoListDB?retryWrites=true&w=majority/todoListDB',
   {
     useNewUrlParser: true
   }
@@ -38,11 +36,10 @@ const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
 
-// process.on('unhandledRejection', err => {
-//   console.log(err.name, err.message);
-//   // console.log(err);
-//   console.log('UNHANDLED REJECTION! 🧨 Shutting down');
-//   server.close(() => {
-//     process.exit(1);
-//   });
-// });
+process.on('unhandledRejection', err => {
+  console.log(err.name, err.message);
+  console.log('UNHANDLED REJECTION! 🧨 Shutting down');
+  server.close(() => {
+    process.exit(1);
+  });
+});
