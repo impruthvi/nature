@@ -23,41 +23,75 @@ const handleJWTError = () =>
 
 const handleJWTExpiredError = () =>
   new AppError('Your Token has expired. Please try again', 401);
-const sendErrDev = (err, res) => {
-  res.status(err.statusCode).json({
-    status: err.status,
-    message: err.message,
-    err: err,
-    stack: err.stack
+
+const sendErrDev = (err, req, res) => {
+  // A) API
+  if (req.originalUrl.startsWith('/api')) {
+    return res.status(err.statusCode).json({
+      status: err.status,
+      message: err.message,
+      err: err,
+      stack: err.stack
+    });
+  }
+  // B) RENDERED WEBSITE
+  // 1) Log error message
+  console.error('Error 💣', err);
+
+  return res.status(err.statusCode).render('error', {
+    title: 'Somthing went wrong',
+    msg: err.message
   });
 };
 
-const sendErrProd = (err, res) => {
-  // Operational, trusted error: send message to client
-  if (err.isOperational) {
-    res.status(err.statusCode).json({
-      status: err.status,
-      message: err.message
-    });
+const sendErrProd = (err, req, res) => {
+  // A) API
+  if (req.originalUrl.startsWith('/api')) {
+    // a) Operational, trusted error: send message to client
+    if (err.isOperational) {
+      return res.status(err.statusCode).json({
+        status: err.status,
+        message: err.message
+      });
 
-    // Programming or other error: don't leak error details
-  } else {
+      // b) Programming or other error: don't leak error details
+    }
+
     // 1) Log error message
     console.error('Error 💣', err);
 
     // 2) Send ganeric message
-    res.status(500).json({
+    return res.status(500).json({
       status: 'error',
       message: 'Somthing went very wrong'
     });
   }
+
+  // B) RENDERED WEBSITE
+  // a) Operational, trusted error: send message to client
+  if (err.isOperational) {
+    return res.status(err.statusCode).render('error', {
+      title: 'Somthing went wrong',
+      msg: err.message
+    });
+
+    // b) Programming or other error: don't leak error details
+  }
+  // 1) Log error message
+  console.error('Error 💣', err);
+
+  // 2) Send ganeric message
+  return res.status(err.statusCode).render('error', {
+    title: 'Somthing went wrong',
+    msg: 'Please try again later'
+  });
 };
 
 module.exports = (err, req, res, next) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'fail';
   if (process.env.NODE_ENV === 'development') {
-    sendErrDev(err, res);
+    sendErrDev(err, req, res);
   } else if (process.env.NODE_ENV === 'production') {
     // console.error(err.code);
     if (err.name === 'CastError') err = handleCastError(err);
@@ -66,6 +100,6 @@ module.exports = (err, req, res, next) => {
     if (err.name === 'JsonWebTokenError') err = handleJWTError(err);
     if (err.name === 'TokenExpiredError') err = handleJWTExpiredError(err);
 
-    sendErrProd(err, res);
+    sendErrProd(err, req, res);
   }
 };
