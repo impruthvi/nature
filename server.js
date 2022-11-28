@@ -15,7 +15,7 @@ dotenv.config({ path: './config.env' });
 //   process.env.DATABASE_PASSWORD
 // );
 const DB =
-  'mongodb://impruthvi:impruthvi@todolist-shard-00-00.wd9gx.mongodb.net:27017,todolist-shard-00-01.wd9gx.mongodb.net:27017,todolist-shard-00-02.wd9gx.mongodb.net:27017/?ssl=true&replicaSet=atlas-a3xgj5-shard-0&authSource=admin&retryWrites=true&w=majority';
+  'mongodb://impruthvi:impruthvi@todolist-shard-00-00.wd9gx.mongodb.net:27017,todolist-shard-00-01.wd9gx.mongodb.net:27017,todolist-shard-00-02.wd9gx.mongodb.net:27017/natours?ssl=true&replicaSet=atlas-a3xgj5-shard-0&authSource=admin&retryWrites=true&w=majority';
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
